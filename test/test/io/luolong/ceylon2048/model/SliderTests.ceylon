@@ -4,21 +4,17 @@ import ceylon.test {
 }
 
 import io.luolong.ceylon2048.model {
-    Position,
     ClassicMergeStrategy,
     Move,
     Slider,
     left,
-    Cell,
     right,
     Direction,
     MergeStrategy,
     up,
-    down
+    down,
+    move
 }
-
-shared Move move(Integer content, [Integer, Integer] -> [Integer, Integer] move)
-        => Move(Cell(Position(*move.key), content), Position(*move.item));
 
 abstract class SlideTestBase(Direction direction, MergeStrategy strategy = ClassicMergeStrategy(), Integer size = 4)  {
 

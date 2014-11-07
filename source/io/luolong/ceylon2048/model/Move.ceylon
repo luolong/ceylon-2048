@@ -27,3 +27,6 @@ shared class Move(cell, to) {
         return false;
     }
 }
+
+shared Move move(Integer content, [Integer, Integer] -> [Integer, Integer] move)
+        => Move(Cell(Position(*move.key), content), Position(*move.item));

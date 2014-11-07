@@ -1,5 +1,5 @@
 
-shared class Position(row, column) satisfies Summable<Position> & Invertible<Position>{
+shared class Position(row, column) satisfies Summable<Position> & Invertible<Position> {
 
     shared Integer row;
     shared Integer column;
@@ -24,7 +24,6 @@ shared class Position(row, column) satisfies Summable<Position> & Invertible<Pos
         hash = 31*hash + column.hash;
         return hash;
     }
-
 }
 
 shared {Position*} positions({[Integer, Integer]*} tuples) => {for (tuple in tuples) Position(*tuple)};
