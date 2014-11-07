@@ -1,7 +1,11 @@
 import io.luolong.ceylon2048.model {
     Cell,
     Direction,
-    Position
+    Position,
+    left,
+    right,
+    up,
+    down
 }
 
 interface Generator{
@@ -9,11 +13,18 @@ interface Generator{
 }
 
 Generator generator(Integer size, Direction direction) {
-    value positions = {for (row in 1..size) for (col in 1..size) Position(row, col)}.iterator();
+    function positions(Integer size, Direction direction) {
+        switch (direction)
+        case (left)  { return {for (row in 1..size) for (col in 1..size) Position(row, col)}; }
+        case (right) { return {for (row in 1..size) for (col in size..1) Position(row, col)}; }
+        case (up)    { return {for (col in 1..size) for (row in 1..size) Position(row, col)}; }
+        case (down)  { return {for (col in 1..size) for (row in size..1) Position(row, col)}; }
+    }
 
+    value iterator = positions(size, direction).iterator();
     object gen satisfies Generator{
         shared actual Cell next(Integer content) {
-            assert(is Position nextPosition = positions.next());
+            assert(is Position nextPosition = iterator.next());
             return Cell(nextPosition, content);
         }
     }

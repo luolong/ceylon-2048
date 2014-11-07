@@ -26,3 +26,5 @@ shared class Position(row, column) satisfies Summable<Position> & Invertible<Pos
     }
 
 }
+
+shared {Position*} positions({[Integer, Integer]*} tuples) => {for (tuple in tuples) Position(*tuple)};

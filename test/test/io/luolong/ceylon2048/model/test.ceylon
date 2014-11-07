@@ -12,8 +12,8 @@ testSuite({
 void allTestsSuite() {}
 
 testSuite({
-    `class SlideToLeftTest`,
-    `class SlideToRightTest`
+    `class SlideLeftTest`,
+    `class SlideRightTest`
 })
 void allSlidersSuite() {}
 
