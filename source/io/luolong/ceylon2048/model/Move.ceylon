@@ -8,6 +8,8 @@ shared class Move(cell, to) {
     "New position of the cell after the change."
     shared Position to;
 
+    shared Position from => cell.position;
+
     "Content value of the cell"
     shared Integer content = cell.content;
 

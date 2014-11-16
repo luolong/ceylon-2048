@@ -35,3 +35,8 @@ shared class Tile(position, content = 0) extends Object() {
         return hash;
     }
 }
+
+"""Create a new tile with specified content and position"""
+shared Tile tile([Integer, Integer] position, Content content = 0) {
+    return Tile(Position(*position), content);
+}

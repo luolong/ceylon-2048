@@ -1,19 +1,27 @@
 import ceylon.test {
     test,
-    ignore
+    assertEquals
 }
 
 import io.luolong.ceylon2048.model {
     Game,
     Grid,
-    move
+    left
 }
 
 class GameTest() {
 
-    Grid board = Grid(4);
-    Game game = Game(board);
+    value game = Game(Grid(3, [1, 1, 0, 0, 1, 1, 1, 0, 1]));
+    value moveLeft = game.moves(left);
 
-    ignore test shared void applyingMovesUpdatesBoard() => game.apply([move(1, [1,1] -> [1,1])]);
+    test shared void applyingMovesUpdatesGrid() => assertEquals(
+        game.apply(moveLeft).grid.state,
+        [2, 0, 0, 2, 0, 0, 2, 0, 0]
+    );
+
+    test shared void applyingMovesUpdatesScore() => assertEquals(
+        game.apply(moveLeft).score,
+        6
+    );
 
 }

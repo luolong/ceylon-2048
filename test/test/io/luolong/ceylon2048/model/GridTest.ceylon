@@ -3,10 +3,12 @@ import ceylon.test {
     assertTrue,
     test
 }
+
 import io.luolong.ceylon2048.model {
     Position,
     Grid,
-    Tile
+    Tile,
+    tile
 }
 
 class GridTest() {
@@ -14,21 +16,21 @@ class GridTest() {
     Grid board = Grid(4);
 
     """New board has 16 cells"""
-    test shared void has16Cells() => assertEquals(board.cells.size, 4*4);
+    test shared void has16Cells() => assertEquals(board.tiles.size, 4*4);
 
     """New board is empty by default"""
-    test shared void defaultBoardIsEmpty() => assertTrue(every(board.cells*.empty));
+    test shared void defaultBoardIsEmpty() => assertTrue(every(board.tiles*.empty));
 
     """Board has 4 rows"""
     test shared void has4RowsOfCells() => assertEquals {
         actual = board.rows;
-        expected = [for (row in 1..4) [for (column in 1..4) Tile(Position(row, column))]];
+        expected = [for (row in 1..4) [for (column in 1..4) tile([row, column])]];
     };
 
     """Board has 4 columns"""
     test shared void has4ColumnsOfCells() => assertEquals {
         actual = board.columns;
-        expected = [for (column in 1..4) [for (row in 1..4) Tile(Position(row, column))]];
+        expected = [for (column in 1..4) [for (row in 1..4) tile([row, column])]];
     };
 
     """Can ask for a column of cells"""
@@ -46,7 +48,7 @@ class GridTest() {
     """Can instantiate board with cell values"""
     test shared void canInstantiateWithState() {
         assertEquals {
-             actual = Grid(4, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]).cells;
+             actual = Grid(4, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]).tiles;
              expected = [
                  Tile(Position(1, 1), 1), Tile(Position(1, 2), 0), Tile(Position(1, 3), 0), Tile(Position(1, 4), 0),
                  Tile(Position(2, 1), 0), Tile(Position(2, 2), 1), Tile(Position(2, 3), 0), Tile(Position(2, 4), 0),

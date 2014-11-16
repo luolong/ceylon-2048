@@ -31,38 +31,43 @@ shared class Grid(size, state = [for (row in 1..size * size) 0]) {
     "Negative state values are not allowed!"
     assert(state.every((Content element) => element >= 0));
 
-    value positions = [for (row in 1..size) for (column in 1..size) Position(row, column)];
+    value positions = [for (row in 1..size) for (column in 1..size) [row, column]];
 
     "Sequence containing all tiles on the grid.
-
      Each cell has a position on the board (row and column) and content value."
-    shared [Tile+] cells = [for (pair in zipPairs(positions, state)) Tile(pair[0], pair[1])];
+    shared [Tile+] tiles = [for (pair in zipPairs(positions, state)) tile(*pair)];
 
     "Sequence of rows.
-
      There are exactly `size` rows of `size` tiles - one for each column."
-    shared [Row+] rows => [*cells.partition(size)];
+    shared [Row+] rows => [*tiles.partition(size)];
 
     "Sequence of columns.
-
      There are exactly `size` columns of `size` tiles - one for each row."
-    shared [Column+] columns => [ for (columnNumber in 1..size) column(columnNumber)];
+    shared [Column+] columns => [for (columnNumber in 1..size) column(columnNumber)];
 
     "Select a single column of cells."
     shared Column column(Integer columnNumber) {
-        assert(nonempty sequence = cells.skip(columnNumber - 1).by(size).sequence());
+        assert(nonempty sequence = tiles.skip(columnNumber - 1).by(size).sequence());
         return sequence;
     }
 
     "Select a single row of cells"
     shared Row row(Integer rowNumber) {
-        assert(nonempty sequence = cells.skip((rowNumber - 1) * size).take(size).sequence());
+        assert(nonempty sequence = tiles.skip((rowNumber - 1) * size).take(size).sequence());
         return sequence;
     }
 
-    "Select all available cells on the board. Cells are available when they are _empty_ (i.e. their integer value is `0`)"
+    "Select all available cells on the board.
+     Cells are available when they are _empty_ (i.e. their integer value is `0`)"
     see (`value Tile.empty`)
-    shared [Tile*] available => [for (cell in cells) if (cell.empty) cell];
+    shared [Tile*] available => [for (cell in tiles) if (cell.empty) cell];
 
-    shared actual String string => "\n".join(cells.partition(size).map(([Tile+] row) => ";".join(row)));
+    """Returns index of the given position on thre grid of tiles"""
+    shared Integer indexOf(Position position) {
+        assert(position.row <= size, position.column <= size);
+        return ((position.row - 1) * size) + position.column - 1;
+    }
+
+    shared actual String string => "\n".join(rows.map(([Tile+] row) => ";".join(row)));
+
 }
