@@ -3,7 +3,7 @@
 shared class Move(cell, to) {
 
     "Reference to the cell that changes."
-    shared Cell cell;
+    shared Tile cell;
 
     "New position of the cell after the change."
     shared Position to;
@@ -29,4 +29,4 @@ shared class Move(cell, to) {
 }
 
 shared Move move(Integer content, [Integer, Integer] -> [Integer, Integer] move)
-        => Move(Cell(Position(*move.key), content), Position(*move.item));
+        => Move(Tile(Position(*move.key), content), Position(*move.item));

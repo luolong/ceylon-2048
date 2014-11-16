@@ -1,6 +1,6 @@
 
 shared interface MergeStrategy {
 
-    shared formal Boolean canBeMerged([Cell+] cells);
+    shared formal Boolean canBeMerged([Tile+] cells);
 
 }

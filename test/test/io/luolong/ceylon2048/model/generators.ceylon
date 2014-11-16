@@ -1,5 +1,5 @@
 import io.luolong.ceylon2048.model {
-    Cell,
+    Tile,
     Direction,
     Position,
     left,
@@ -9,7 +9,7 @@ import io.luolong.ceylon2048.model {
 }
 
 interface Generator{
-    shared formal Cell next(Integer content);
+    shared formal Tile next(Integer content);
 }
 
 Generator generator(Integer size, Direction direction) {
@@ -23,9 +23,9 @@ Generator generator(Integer size, Direction direction) {
 
     value iterator = positions(size, direction).iterator();
     object gen satisfies Generator{
-        shared actual Cell next(Integer content) {
+        shared actual Tile next(Integer content) {
             assert(is Position nextPosition = iterator.next());
-            return Cell(nextPosition, content);
+            return Tile(nextPosition, content);
         }
     }
 

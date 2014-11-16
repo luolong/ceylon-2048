@@ -1,5 +1,5 @@
-shared class ClassicMergeStrategy() satisfies MergeStrategy  {
-    shared actual Boolean canBeMerged([Cell+] cells) {
+shared class Classic2048() satisfies MergeStrategy  {
+    shared actual Boolean canBeMerged([Tile+] cells) {
         if (cells.size == 1) {
             return true;
         }

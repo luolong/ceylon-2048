@@ -4,7 +4,7 @@ import ceylon.test {
 }
 
 import io.luolong.ceylon2048.model {
-    ClassicMergeStrategy,
+    Classic2048,
     Move,
     Slider,
     left,
@@ -16,7 +16,7 @@ import io.luolong.ceylon2048.model {
     move
 }
 
-abstract class SlideTestBase(Direction direction, MergeStrategy strategy = ClassicMergeStrategy(), Integer size = 4)  {
+abstract class SlideTestBase(Direction direction, MergeStrategy strategy = Classic2048(), Integer size = 4)  {
 
     Slider it = Slider(direction, strategy);
     Generator cells = generator(size, direction);

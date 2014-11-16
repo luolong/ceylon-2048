@@ -15,7 +15,7 @@ shared class Slider(direction, MergeStrategy strategy, position = Position(0, 0)
     function next(Position position, Move[] moves) => Slider(direction, strategy, position, moves);
 
     """Generates a move for a cell with a content."""
-    shared Slider move(Cell cell) {
+    shared Slider move(Tile cell) {
         if (newLane(cell)) {
             return next(cell.position, moves).move(cell);
         }
@@ -33,7 +33,7 @@ shared class Slider(direction, MergeStrategy strategy, position = Position(0, 0)
     }
 
     "True if the position is on the next lane compared to the direction of the slide."
-    shared Boolean newLane(Cell cell) {
+    shared Boolean newLane(Tile cell) {
         switch (direction)
         case (is Vertical) { return position.column != cell.position.column; }
         case (is Horizontal) { return position.row != cell.position.row; }

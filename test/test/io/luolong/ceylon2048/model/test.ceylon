@@ -6,18 +6,20 @@ testSuite({
     `class PositionTest`,
     `class DirectionTest`,
     `class CellTest`,
-    `class BoardTest`,
+    `class GridTest`,
     `class GameTest`
 })
 void allTestsSuite() {}
 
 testSuite({
     `class SlideLeftTest`,
-    `class SlideRightTest`
+    `class SlideRightTest`,
+    `class SlideUpTest`,
+    `class SlideDownTest`
 })
 void allSlidersSuite() {}
 
-testSuite({`class ClassicMergeStrategyTest`})
+testSuite({`class Classic2048Test`})
 void allMergeStrategyTests() {}
 
 

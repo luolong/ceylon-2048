@@ -1,16 +1,17 @@
 
+shared alias Content => Integer;
 
 """Represents a cell on a board"""
-shared class Cell(position, content = 0) extends Object() {
+shared class Tile(position, content = 0) extends Object() {
 
     "Content cannot be negative!"
     assert (content >= 0);
 
-    "Position of a cell on a [[Board]]."
+    "Position of a cell on a [[Grid]]."
     shared Position position;
 
     "Content ov the cell. Default value is `0`, which means _empty_."
-    shared Integer content;
+    shared Content content;
 
     "Cell is considered empty, if it's content is `0`."
     shared Boolean empty => content == 0;
@@ -21,7 +22,7 @@ shared class Cell(position, content = 0) extends Object() {
     shared actual String string => "``content`` @ ``position``";
 
     shared actual Boolean equals(Object that) {
-        if (is Cell that) {
+        if (is Tile that) {
             return content==that.content
                 && position==that.position;
         }

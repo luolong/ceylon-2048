@@ -14,8 +14,8 @@ shared abstract class Direction(string, Vector direction) of Vertical | Horizont
         position.row - direction[0],
         position.column - direction[1]);
 
-    shared formal Comparison(Cell, Cell) orderBy;
-    shared [Cell+] reorder([Cell+] cells) => cells.sort(orderBy);
+    shared formal Comparison(Tile, Tile) orderBy;
+    shared [Tile+] reorder([Tile+] cells) => cells.sort(orderBy);
 }
 
 shared abstract class Horizontal(String string, Vector direction) of left | right
@@ -26,26 +26,26 @@ shared abstract class Vertical(String string, Vector direction) of up | down
 
 shared object up extends Vertical("up", [-1, 0]) {
     orderBy = comparing(
-        byIncreasing(Cell.column),
-        byIncreasing(Cell.row)
+        byIncreasing(Tile.column),
+        byIncreasing(Tile.row)
     );
 }
 shared object down extends Vertical("down", [1, 0]) {
     orderBy = comparing(
-        byIncreasing(Cell.column),
-        byDecreasing(Cell.row)
+        byIncreasing(Tile.column),
+        byDecreasing(Tile.row)
     );
 }
 
 shared object right extends Horizontal("right", [0, 1]) {
     orderBy = comparing(
-        byIncreasing(Cell.row),
-        byDecreasing(Cell.column)
+        byIncreasing(Tile.row),
+        byDecreasing(Tile.column)
     );
 }
 shared object left extends Horizontal("left", [0, -1]) {
     orderBy = comparing(
-        byIncreasing(Cell.row),
-        byIncreasing(Cell.column)
+        byIncreasing(Tile.row),
+        byIncreasing(Tile.column)
     );
 }
