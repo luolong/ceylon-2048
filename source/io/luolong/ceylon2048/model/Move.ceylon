@@ -32,3 +32,5 @@ shared class Move(cell, to) {
 
 shared Move move(Integer content, [Integer, Integer] -> [Integer, Integer] move)
         => Move(Tile(Position(*move.key), content), Position(*move.item));
+
+shared alias Moves => [Move*];

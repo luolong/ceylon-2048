@@ -37,6 +37,11 @@ shared class Grid(size, state = [for (row in 1..size * size) 0]) {
      Each cell has a position on the board (row and column) and content value."
     shared [Tile+] tiles = [for (pair in zipPairs(positions, state)) tile(*pair)];
 
+    shared Tile tileAt(Position position) {
+        assert(exists it = tiles[indexOf(position)]);
+        return it;
+    }
+
     "Sequence of rows.
      There are exactly `size` rows of `size` tiles - one for each column."
     shared [Row+] rows => [*tiles.partition(size)];
@@ -64,10 +69,11 @@ shared class Grid(size, state = [for (row in 1..size * size) 0]) {
 
     """Returns index of the given position on thre grid of tiles"""
     shared Integer indexOf(Position position) {
+        "Position must be within boundaries of this grid"
         assert(position.row <= size, position.column <= size);
+
         return ((position.row - 1) * size) + position.column - 1;
     }
 
     shared actual String string => "\n".join(rows.map(([Tile+] row) => ";".join(row)));
-
 }

@@ -1,14 +1,14 @@
 shared class Classic2048() satisfies MergeStrategy  {
-    shared actual Boolean canBeMerged([Tile+] cells) {
-        if (cells.size == 1) {
+    shared actual Boolean canBeMerged([Tile+] tiles) {
+        if (tiles.size == 1) {
             return true;
         }
 
-        if (cells.size == 2) {
-            value content = cells*.content;
-            return content.first == content.last;
+        if (tiles.size == 2) {
+            return canMerge(tiles.first, tiles.last);
         }
 
         return false;
     }
+
 }

@@ -27,7 +27,7 @@ shared class Slider(direction, MergeStrategy strategy, position = Position(0, 0)
         value movesToPosition = [*moves.reversed.takeWhile((Move move) => move.to == this.position)].reversed;
 
         value canMerge = canBeMerged(movesToPosition*.cell.withTrailing(cell));
-        value nextPosition = canMerge then this.position else direction.next(this.position);
+        value nextPosition = canMerge then this.position else direction.previous(this.position);
 
         return next(nextPosition, moves.withTrailing(Move(cell, nextPosition)));
     }

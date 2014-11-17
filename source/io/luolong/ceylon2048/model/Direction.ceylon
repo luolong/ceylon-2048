@@ -8,14 +8,21 @@ shared abstract class Direction(string, Vector direction) of Vertical | Horizont
 
     shared actual String string;
 
-    """Advances position to the next position, which points
-       _away_ from the gravitational direction (i.e. _"up"_ if you will)."""
-    shared Position next(Position position) => Position(
-        position.row - direction[0],
-        position.column - direction[1]);
+    "Returns previous position _away_ from this direction."
+    shared Position previous(Position position) => Position {
+        row = position.row - direction[0];
+        column = position.column - direction[1];
+    };
+
+    "Return next position according to this direction."
+    shared Position next(Position position) => Position {
+        row = position.row + direction[0];
+        column = position.column + direction[1];
+    };
 
     shared formal Comparison(Tile, Tile) orderBy;
     shared [Tile+] reorder([Tile+] cells) => cells.sort(orderBy);
+
 }
 
 shared abstract class Horizontal(String string, Vector direction) of left | right
