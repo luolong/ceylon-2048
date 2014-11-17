@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ceylon-2048 by luolong</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Ceylon-2048</h1>
+        <p>Full Ceylon port of the popular game 2048</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/luolong/ceylon-2048" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/luolong/ceylon-2048/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/luolong/ceylon-2048/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p>Full Ceylon port of the popular puzzle game <a href="http://gabrielecirulli.github.io/2048/">2048</a>.</p>
+
+<p>As I've played many variations of this game on mobile platforms, I've become increasingly frustrated by the dismal energy performance of most variants -- Almost all variants I've played on Android eat battery like it was candy and heat up the phone in my hand to the point it is painful...</p>
+
+<p>I suspect the reason for this is that all of these games are built on the same base of HTML + JavaScript.</p>
+
+<p>Another reason to build my own version of the game is to get a game into the Play store without</p>
+
+<p>So I make this implementation of the game in <a href="http://ceylon-lang.org">Ceylon language</a>. </p>
+
+<p>Firstly to make something not completely trivial in this beautiful language.
+Secondly, to demonstrate how you can use Ceylon to write an app that has (at least) three distinct UI versions based off the same source files:</p>
+
+<ul>
+<li>
+<em>HTML + JavaScript</em> version to be played on the browser</li>
+<li>
+<em>JavaFX on JVM</em> version to be played on the desktop</li>
+<li>
+<em>Android on Dalvik</em> version for mobile devices</li>
+</ul>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/luolong">luolong</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
