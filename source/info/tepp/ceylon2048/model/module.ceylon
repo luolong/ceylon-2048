@@ -5,5 +5,5 @@
    This module is responsible only for game logic and 
    scoring schemes.
    """
-module io.luolong.ceylon2048.model "1.0.0" {}
+module info.tepp.ceylon2048.model "1.0.0" {}
 

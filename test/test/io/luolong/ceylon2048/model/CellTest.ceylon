@@ -2,7 +2,7 @@ import ceylon.test {
     assertEquals,
     test
 }
-import io.luolong.ceylon2048.model {
+import info.tepp.ceylon2048.model {
     Position,
     Tile
 }
