@@ -8,7 +8,7 @@ shared alias Column => [Tile+];
 """A grid of tiles that makes up a game board
 
    A grid can be initialized with a state, that has a content"""
-shared class Grid(size, state = [for (row in 1..size * size) 0]) {
+shared class Grid(size, state = [for (_ in 1..size * size) 0]) {
 
     """Number of rows and columns on the board."""
     shared Integer size;
@@ -31,7 +31,7 @@ shared class Grid(size, state = [for (row in 1..size * size) 0]) {
     "Negative state values are not allowed!"
     assert(state.every((Content element) => element >= 0));
 
-    value positions = [for (row in 1..size) for (column in 1..size) [row, column]];
+    value positions = [for (r in 1..size) for (c in 1..size) [r, c]];
 
     "Sequence containing all tiles on the grid.
      Each cell has a position on the board (row and column) and content value."

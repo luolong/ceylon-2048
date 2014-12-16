@@ -18,7 +18,7 @@ shared class Game(grid, score = 0, mergeStrategy = Classic2048()) {
     shared Moves moves(Direction direction) {
         value slider = Slider(direction, mergeStrategy);
         return direction.reorder(grid.tiles)
-                        .fold(slider, (Slider it, Tile cell) => it.move(cell))
+                        .fold(slider)((Slider it, Tile cell) => it.move(cell))
                         .moves;
     }
 
@@ -32,12 +32,9 @@ shared class Game(grid, score = 0, mergeStrategy = Classic2048()) {
             function comparing(Move x, Move y) => grid.indexOf(x.to) <=> grid.indexOf(y.to);
         };
 
-        value merger = [for (row in 1..grid.size) for (col in 1..grid.size) [row, col]].fold {
-            initial = Merger(orderedMoves);
-            function accumulating(Merger merger, [Integer, Integer] position) {
-                return merger.mergeTo(Position(*position));
-            }
-        };
+        value merger = [for (row in 1..grid.size) for (col in 1..grid.size) [row, col]].fold(Merger(orderedMoves))(
+            (Merger merger, [Integer, Integer] position) => merger.mergeTo(Position(*position))
+        );
 
         assert(nonempty state = merger.state);
         return Game(Grid(grid.size, state), merger.score, mergeStrategy);
@@ -49,16 +46,14 @@ shared class Game(grid, score = 0, mergeStrategy = Classic2048()) {
         "Tile must point to an available grid position"
         assert(grid.tileAt(tile.position).empty);
 
-        assert(nonempty state =
-            grid.tiles.map {
-                function collecting(Tile element) {
-                    if (element.position == tile.position) {
-                        return tile;
-                    }
-                    return element;
+        value state = grid.tiles.map {
+            function collecting(Tile element) {
+                if (element.position == tile.position) {
+                    return tile;
                 }
-            }*.content
-        );
+                return element;
+            }
+        }*.content;
 
         return Game(Grid(grid.size, state), score, mergeStrategy);
     }
