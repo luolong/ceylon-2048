@@ -23,13 +23,13 @@ class GridTest() {
 
     """Board has 4 rows"""
     test shared void has4RowsOfCells() => assertEquals {
-        actual = board.rows;
+        actual = board.rows.sequence();
         expected = [for (row in 1..4) [for (column in 1..4) tile([row, column])]];
     };
 
     """Board has 4 columns"""
     test shared void has4ColumnsOfCells() => assertEquals {
-        actual = board.columns;
+        actual = board.columns.sequence();
         expected = [for (column in 1..4) [for (row in 1..4) tile([row, column])]];
     };
 
@@ -50,10 +50,10 @@ class GridTest() {
         assertEquals {
              actual = Grid(4, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]).tiles;
              expected = [
-                 Tile(Position(1, 1), 1), Tile(Position(1, 2), 0), Tile(Position(1, 3), 0), Tile(Position(1, 4), 0),
-                 Tile(Position(2, 1), 0), Tile(Position(2, 2), 1), Tile(Position(2, 3), 0), Tile(Position(2, 4), 0),
-                 Tile(Position(3, 1), 0), Tile(Position(3, 2), 0), Tile(Position(3, 3), 1), Tile(Position(3, 4), 0),
-                 Tile(Position(4, 1), 0), Tile(Position(4, 2), 0), Tile(Position(4, 3), 0), Tile(Position(4, 4), 1)
+                 tile([1, 1], 1), tile([1, 2], 0), tile([1, 3], 0), tile([1, 4], 0),
+                 tile([2, 1], 0), tile([2, 2], 1), tile([2, 3], 0), tile([2, 4], 0),
+                 tile([3, 1], 0), tile([3, 2], 0), tile([3, 3], 1), tile([3, 4], 0),
+                 tile([4, 1], 0), tile([4, 2], 0), tile([4, 3], 0), tile([4, 4], 1)
              ];
       };
     }
@@ -61,11 +61,11 @@ class GridTest() {
     """Can instantiate board with cell values"""
     test shared void canReturnState() {
         assertEquals(Grid(4, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]).state,
-            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+                             [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
     }
 
     test shared void itReturnsAvailableCells() => assertEquals{
       actual = Grid(4, [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0]).available;
-      expected = [Tile(Position(1, 1)), Tile(Position(2, 2)), Tile(Position(3, 3)), Tile(Position(4, 4))];
+      expected = [tile([1, 1]), tile([2, 2]), tile([3, 3]), tile([4, 4])];
     };
 }

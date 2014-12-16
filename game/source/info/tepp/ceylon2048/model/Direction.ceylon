@@ -23,13 +23,18 @@ shared abstract class Direction(string, Vector direction) of Vertical | Horizont
     shared formal Comparison(Tile, Tile) orderBy;
     shared [Tile+] reorder([Tile+] cells) => cells.sort(orderBy);
 
+    shared formal Boolean sameLane(Position first)(Position second);
 }
 
 shared abstract class Horizontal(String string, Vector direction) of left | right
-        extends Direction(string, direction) {}
+        extends Direction(string, direction) {
+    sameLane(Position first)(Position second) => first.row == second.row;
+}
 
 shared abstract class Vertical(String string, Vector direction) of up | down
-        extends Direction(string, direction) {}
+        extends Direction(string, direction) {
+    sameLane(Position first)(Position second) => first.column == second.column;
+}
 
 shared object up extends Vertical("up", [-1, 0]) {
     orderBy = comparing(

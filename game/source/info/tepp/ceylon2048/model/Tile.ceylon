@@ -21,13 +21,11 @@ shared class Tile(position, content = 0) extends Object() {
 
     shared actual String string => "``content`` @ ``position``";
 
-    shared actual Boolean equals(Object that) {
-        if (is Tile that) {
-            return content==that.content
-                && position==that.position;
-        }
-        return false;
-    }
+    shared actual Boolean equals(Object that)
+            => if (is Tile that)
+               then content==that.content && position==that.position
+               else false;
+
     shared actual Integer hash {
         variable value hash = 1;
         hash = 31*hash + position.hash;
@@ -37,6 +35,5 @@ shared class Tile(position, content = 0) extends Object() {
 }
 
 """Create a new tile with specified content and position"""
-shared Tile tile([Integer, Integer] position, Content content = 0) {
-    return Tile(Position(*position), content);
-}
+shared Tile tile([Integer, Integer] position, Content content = 0)
+        => Tile(Position(*position), content);

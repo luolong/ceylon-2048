@@ -11,7 +11,7 @@ shared class Move(cell, to) {
     shared Position from => cell.position;
 
     "Content value of the cell"
-    shared Integer content = cell.content;
+    shared Integer content => cell.content;
 
     "Row number of the new position of the cell after the change."
     shared Integer row => to.row;
@@ -21,13 +21,10 @@ shared class Move(cell, to) {
 
     shared actual String string => "``content`` @ ``cell.position`` -> ``to``";
 
-    shared actual Boolean equals(Object that) {
-        if (is Move that) {
-            return cell==that.cell
-                    && to==that.to;
-        }
-        return false;
-    }
+    shared actual Boolean equals(Object that)
+             => if (is Move that)
+                then cell==that.cell && to==that.to
+                else false;
 }
 
 shared Move move(Integer content, [Integer, Integer] -> [Integer, Integer] move)

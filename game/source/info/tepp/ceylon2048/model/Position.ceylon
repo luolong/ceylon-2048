@@ -10,13 +10,10 @@ shared class Position(row, column) satisfies Summable<Position> & Invertible<Pos
 
     shared actual Position negated => Position(-row, -column);
 
-    shared actual Boolean equals(Object that) {
-        if (is Position that) {
-            return row==that.row
-                && column==that.column;
-        }
-        return false;
-    }
+    shared actual Boolean equals(Object that) =>
+            if (is Position that)
+            then row==that.row && column==that.column
+            else false;
 
     shared actual Integer hash {
         variable value hash = 1;

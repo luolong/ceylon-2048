@@ -18,7 +18,7 @@ shared class Game(grid, score = 0, mergeStrategy = Classic2048()) {
     shared Moves moves(Direction direction) {
         value slider = Slider(direction, mergeStrategy);
         return direction.reorder(grid.tiles)
-                        .fold(slider)((Slider it, Tile cell) => it.move(cell))
+                        .fold(slider)((Slider it, Tile cell) => it.slide(cell))
                         .moves;
     }
 

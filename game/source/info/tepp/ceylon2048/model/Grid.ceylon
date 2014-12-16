@@ -31,12 +31,14 @@ shared class Grid(size, state = [for (_ in 1..size * size) 0]) {
     "Negative state values are not allowed!"
     assert(state.every((Content element) => element >= 0));
 
-    value positions = [for (r in 1..size) for (c in 1..size) [r, c]];
-
     "Sequence containing all tiles on the grid.
      Each cell has a position on the board (row and column) and content value."
-    shared [Tile+] tiles = [for (pair in zipPairs(positions, state)) tile(*pair)];
+    shared [Tile+] tiles =
+            let (positions = [for (r in 1..size) for (c in 1..size) [r, c]])
+            [for (pair in zipPairs(positions, state)) tile(*pair)];
 
+    "Returns tile at the specified position."
+    throws(`class AssertionError`, "if the provided position is illegal")
     shared Tile tileAt(Position position) {
         assert(exists it = tiles[indexOf(position)]);
         return it;
@@ -44,19 +46,21 @@ shared class Grid(size, state = [for (_ in 1..size * size) 0]) {
 
     "Sequence of rows.
      There are exactly `size` rows of `size` tiles - one for each column."
-    shared [Row+] rows => [*tiles.partition(size)];
+    shared {Row+} rows => tiles.partition(size);
 
     "Sequence of columns.
      There are exactly `size` columns of `size` tiles - one for each row."
-    shared [Column+] columns => [for (columnNumber in 1..size) column(columnNumber)];
+    shared {Column+} columns => {for (columnNumber in 1..size) column(columnNumber)};
 
     "Select a single column of cells."
+    throws(`class AssertionError`, "When `columnNumber` is not a valid column number (1..`size`)")
     shared Column column(Integer columnNumber) {
         assert(nonempty sequence = tiles.skip(columnNumber - 1).by(size).sequence());
         return sequence;
     }
 
     "Select a single row of cells"
+    throws(`class AssertionError`, "When `rowNumber` is not a valid row number (1..`size`)")
     shared Row row(Integer rowNumber) {
         assert(nonempty sequence = tiles.skip((rowNumber - 1) * size).take(size).sequence());
         return sequence;
@@ -68,6 +72,7 @@ shared class Grid(size, state = [for (_ in 1..size * size) 0]) {
     shared [Tile*] available => [for (cell in tiles) if (cell.empty) cell];
 
     """Returns index of the given position on thre grid of tiles"""
+    throws(`class AssertionError`, "When position is outside of the boundaries of this grid")
     shared Integer indexOf(Position position) {
         "Position must be within boundaries of this grid"
         assert(position.row <= size, position.column <= size);
@@ -75,5 +80,6 @@ shared class Grid(size, state = [for (_ in 1..size * size) 0]) {
         return ((position.row - 1) * size) + position.column - 1;
     }
 
+    "String representation of the board"
     shared actual String string => "\n".join(rows.map(([Tile+] row) => ";".join(row)));
 }

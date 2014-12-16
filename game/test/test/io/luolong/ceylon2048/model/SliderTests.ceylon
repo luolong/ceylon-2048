@@ -22,7 +22,7 @@ abstract class SlideTestBase(Direction direction, MergeStrategy strategy = Class
     Generator cells = generator(size, direction);
 
     function play(Integer[] content) => content.fold(it)
-            ((Slider it, Integer content) => it.move(cells.next(content)));
+            ((Slider it, Integer content) => it.slide(cells.next(content)));
 
     shared void assertMove(Integer[] input, [Move*] expected) => assertEquals{
         actual = play(input).moves;
@@ -35,7 +35,7 @@ abstract class SlideTestBase(Direction direction, MergeStrategy strategy = Class
     };
 
     test shared void emptyCellDoesNotAddMoves() => assertEquals {
-        actual = it.move(cells.next(0)).moves;
+        actual = it.slide(cells.next(0)).moves;
         expected = empty;
     };
 
