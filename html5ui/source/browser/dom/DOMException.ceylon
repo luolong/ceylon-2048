@@ -1,29 +1,23 @@
+"""DOM operations only raise exceptions in "exceptional" circumstances,
+   i.e., when an operation is impossible to perform (either for logical reasons,
+   because data is lost, or because the implementation has become unstable).
+   In general, DOM methods return specific error values in ordinary processing
+   situations, such as out-of-bound errors when using [[NodeList]].
+
+   Implementations should raise other exceptions under other circumstances.
+   For example, implementations should raise an implementation-dependent exception
+   if a `null` argument is passed when `null` was not expected.
+
+   Some languages and object systems do not support the concept of exceptions.
+   For such systems, error conditions may be indicated using native error reporting
+   mechanisms. For some bindings, for example, methods may return error codes similar
+   to those listed in the corresponding method descriptions.
+   """
 shared dynamic DOMException {
+
+    "An integer indicating the type of error generated."
+    see(`value \iExceptionCode`)
     shared formal Integer code;
-}
-
-shared object domExceptionCode {
-
-    shared Integer      \iINDEX_SIZE_ERR                 = 1;
-    shared Integer      \iDOMSTRING_SIZE_ERR             = 2;
-    shared Integer      \iHIERARCHY_REQUEST_ERR          = 3;
-    shared Integer      \iWRONG_DOCUMENT_ERR             = 4;
-    shared Integer      \iINVALID_CHARACTER_ERR          = 5;
-    shared Integer      \iNO_DATA_ALLOWED_ERR            = 6;
-    shared Integer      \iNO_MODIFICATION_ALLOWED_ERR    = 7;
-    shared Integer      \iNOT_FOUND_ERR                  = 8;
-    shared Integer      \iNOT_SUPPORTED_ERR              = 9;
-    shared Integer      \iINUSE_ATTRIBUTE_ERR            = 10;
-
-    // Introduced in DOM Level 2:
-    shared Integer      \iINVALID_STATE_ERR              = 11;
-    shared Integer      \iSYNTAX_ERR                     = 12;
-    shared Integer      \iINVALID_MODIFICATION_ERR       = 13;
-    shared Integer      \iNAMESPACE_ERR                  = 14;
-    shared Integer      \iINVALID_ACCESS_ERR             = 15;
-
-    // Introduced in DOM Level 3:
-    shared Integer      \iVALIDATION_ERR                 = 16;
-    shared Integer      \iTYPE_MISMATCH_ERR              = 17;
 
 }
+

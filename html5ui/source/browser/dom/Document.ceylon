@@ -457,9 +457,9 @@ shared dynamic Document satisfies Node {
        These nodes can all be adopted. No specifics.
 
      **Note:** Since it does not create new nodes unlike the [[Document.importNode()]] method, this
-     method does not raise an [[INVALID_CHARACTER_ERR]] exception, and applications should use the
-     [[Document.normalizeDocument()]] method to check if an imported name is not an XML name
-     according to the XML version in use."
+     method does not raise an [[INVALID_CHARACTER_ERR|ExceptionCode.INVALID_CHARACTER_ERR]] exception,
+     and applications should use the [[Document.normalizeDocument()]] method to check if an imported
+     name is not an XML name according to the XML version in use."
     throws(`interface DOMException`,
         "- `NOT_SUPPORTED_ERR`: Raised if the source node is of type `DOCUMENT`, `DOCUMENT_TYPE`.
          - `NO_MODIFICATION_ALLOWED_ERR`: Raised when the source node is readonly.
@@ -488,10 +488,10 @@ shared dynamic Document satisfies Node {
 
      If errors occur during the invocation of this method, such as an attempt to update a read-only
      node or a [[Node.nodeName]] contains an invalid character according to the XML version in use,
-     errors or warnings ([[DOMError.SEVERITY_ERROR]] or [[DOMError.SEVERITY_WARNING]]) will be reported
-     using the [[DOMErrorHandler]] object associated with the \"[error-handler]\" parameter.
-     Note this method might also report fatal errors ([[DOMError.SEVERITY_FATAL_ERROR]]) if an
-     implementation cannot recover from an error.
+     errors or warnings ([[ErrorSeverity.SEVERITY_ERROR]] or [[ErrorSeverity.SEVERITY_WARNING]]) will
+     be reported using the [[DOMErrorHandler]] object associated with the \"[error-handler]\"
+     parameter. Note this method might also report fatal errors ([[ErrorSeverity.SEVERITY_FATAL_ERROR]])
+     if an implementation cannot recover from an error.
      "
     shared formal void normalizeDocument();
 

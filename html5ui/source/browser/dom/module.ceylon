@@ -1,2 +1,2 @@
-"Document Object Model Level 3 dynamic interfaces"
-module browser.dom "3" {}
+"Document Object Model Level 3 dynamic interfaces."
+module browser.dom "Level 3" {}

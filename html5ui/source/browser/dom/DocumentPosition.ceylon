@@ -46,7 +46,7 @@
  into or removed from the direct container. This would be the case, for example, when
  comparing two attributes of the same element, and inserting or removing additional
  attributes might change the order between existing attributes."
-shared object documentPosition {
+shared object \iDocumentPosition {
 
     "The two nodes are disconnected.
      Order between disconnected nodes is always implementation-specific."

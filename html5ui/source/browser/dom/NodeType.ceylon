@@ -1,6 +1,27 @@
-"An integer indicating which type of node this is.
+"""An integer indicating which type of node this is.
 
- **Note:** Numeric codes up to 200 are reserved to W3C for possible future use."
+   **Note:** Numeric codes up to 200 are reserved to W3C for possible future use.
+
+   <table>
+   <caption>The values of nodeName, nodeValue, and attributes vary according to the node type as follows:</caption>
+   <thead>
+   <tr><th>Interface</th><th>nodeName</th><th>nodeValue</th><th>attributes</th></tr>
+   </thead>
+   <tbody>
+   <tr><td>[[Attr]]</td><td>same as [[Attr.name]]</td><td>same as [[Attr.value]]</td><td>`null`</td></tr>
+   <tr><td>[[CDATASection]]</td><td>`"#cdata-section"`</td><td>same as [[CharacterData.data]], the content of the CDATA Section</td><td>`null`</td></tr>
+   <tr><td>[[Comment]]</td><td>`"#comment"`</td><td>same as [[CharacterData.data]], the content of the comment</td><td>`null`</td></tr>
+   <tr><td>[[Document]]</td><td>`"#document"`</td><td>`null`</td><td>`null`</td></tr>
+   <tr><td>[[DocumentFragment]]</td><td>`"#document-fragment"`</td><td>`null`</td><td>`null`</td></tr>
+   <tr><td>[[DocumentType]]</td><td>same as DocumentType.name</td><td>`null`</td><td>`null`</td></tr>
+   <tr><td>[[Element]]</td><td>same as Element.tagName</td><td>`null`</td><td>[[NamedNodeMap]]</td></tr>
+   <tr><td>[[Entity]]</td><td>entity name</td><td>`null`</td><td>`null`</td></tr>
+   <tr><td>[[EntityReference]]</td><td>name of entity referenced</td><td>`null`</td><td>`null`</td></tr>
+   <tr><td>[[Notation]]</td><td>notation name</td><td>`null`</td><td>`null`</td></tr>
+   <tr><td>[[ProcessingInstruction]]</td><td>same as [[ProcessingInstruction.target]]</td><td>same as [[ProcessingInstruction.data]]</td><td>`null`</td></tr>
+   <tr><td>[[Text]]</td><td>`"#text"`</td><td>same as [[CharacterData.data]], the content of the text node</td><td>`null`</td></tr>
+   </tbody>
+   """
 shared object \iNodeType {
 
     "The node is an [[Element]]."

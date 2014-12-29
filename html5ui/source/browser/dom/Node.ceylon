@@ -1,29 +1,66 @@
-import ceylon.language {
-    raises=throws
-}
 
+"The `Node` interface is the primary datatype for the entire Document Object Model.
+ It represents a single node in the document tree. While all objects implementing
+ the `Node` interface expose methods for dealing with children, not all objects
+ implementing the `Node` interface may have children. For example, [[Text]] nodes
+ may not have children, and adding children to such nodes results in a [[DOMException]]
+ being raised.
+
+ The attributes `nodeName`, `nodeValue` and `attributes` are included as a mechanism to
+ get at node information without casting down to the specific derived interface.
+ In cases where there is no obvious mapping of these attributes for a specific `nodeType`
+ (e.g., `nodeValue` for an [[Element]] or `attributes` for a [[Comment]]), this returns `null`.
+ Note that the specialized interfaces may contain additional and more convenient mechanisms
+ to get and set the relevant information."
 shared dynamic Node {
 
+    "The name of this node, depending on its type; see the table in [[NodeType]]."
     shared formal DOMString nodeName;
 
-    raises(`interface DOMException`)
-    shared formal variable DOMString nodeValue;
+    "The value of this node, depending on its type; see the table in [[NodeType]].
+     When it is defined to be `null`, setting it has no effect, including if the
+     node is [read-only].
+     [read-only]: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-readonly-node"
+    throws(`interface DOMException`,
+            "**Exceptions on setting**
+             - `NO_MODIFICATION_ALLOWED_ERR`: Raised when the node is readonly and if it
+                is not defined to be `null`.
 
+             **Exceptions on retrieval**
+             - `DOMSTRING_SIZE_ERR`: Raised when it would return more characters than fit
+                in a [[DOMString]] variable on the implementation platform.
+             ")
+    shared formal variable DOMString? nodeValue;
+
+    "A code representing the type of the underlying object, as defined in [[NodeType]]."
+    see(`value \iNodeType`)
     shared formal Integer nodeType;
 
+    "The parent of this node.
+     All nodes, except [[Attr]], [[Document]], [[DocumentFragment]], [[Entity]], and
+     [[Notation]] may have a parent. However, if a node has just been created and not
+     yet added to the tree, or if it has been removed from the tree, this is `null`. "
     shared formal Node? parentNode;
 
+    "A [[NodeList]] that contains all children of this node.
+     If there are no children, this is a [[NodeList]] containing no nodes."
     shared formal NodeList childNodes;
 
+    "The first child of this node. If there is no such node, this returns `null`."
     shared formal Node? firstChild;
 
+    "The last child of this node. If there is no such node, this returns `null`."
     shared formal Node? lastChild;
 
+    "The node immediately preceding this node. If there is no such node, this returns `null`."
     shared formal Node? previousSibling;
 
+    "The node immediately following this node. If there is no such node, this returns 'null'."
     shared formal Node? nextSibling;
 
-    shared formal NamedNodeMap  attributes;
+    "A [[NamedNodeMap]] containing the attributes of this node (if it is an [[Element]])
+     or `null` otherwise."
+    shared formal NamedNodeMap? attributes;
 
     "The `Document` object associated with this node.
      This is also the `Document` object used to create
@@ -40,7 +77,31 @@ shared dynamic Node {
      already in the tree, it is first removed.
 
      **Note:** Inserting a node before itself is implementation dependent."
-    shared formal Node insertBefore(Node newChild, Node? refChild);
+    throws(`interface DOMException`,
+            "`HIERARCHY_REQUEST_ERR`: Raised if this node is of a type that does not
+             allow children of the type of the `newChild` node, or if the node to
+             insert is one of this node's [ancestors] or this node itself, or if this
+             node is of type [[Document]] and the DOM application attempts to insert
+             a second [[DocumentType]] or [[Element]] node.
+
+             `WRONG_DOCUMENT_ERR`: Raised if `newChild` was created from a different
+             document than the one that created this node.
+
+             `NO_MODIFICATION_ALLOWED_ERR`: Raised if this node is readonly or if the
+             parent of the node being inserted is readonly.
+
+             `NOT_FOUND_ERR`: Raised if `refChild` is not a child of this node.
+
+             `NOT_SUPPORTED_ERR`: if this node is of type [[Document]], this exception
+             might be raised if the DOM implementation doesn't support the insertion of
+             a [[DocumentType]] or [[Element]] node.
+
+             [ancestors]: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-ancestor")
+    shared formal Node insertBefore(
+                "The node to insert."
+                Node newChild,
+                "The reference node, i.e., the node before which the new node must be inserted."
+                Node? refChild);
 
     "Replaces the child node `oldChild` with `newChild` in the list
      of children, and returns the `oldChild` node.
@@ -51,20 +112,67 @@ shared dynamic Node {
      is already in the tree, it is first removed.
 
      **Note:** Replacing a node with itself is implementation dependent."
+    throws(`interface DOMException`,
+            "`HIERARCHY_REQUEST_ERR`: Raised if this node is of a type that does not allow children
+             of the type of the `newChild` node, or if the node to put in is one of this node's
+             [ancestors] or this node itself, or if this node is of type [[Document]] and the
+             result of the replacement operation would add a second [[DocumentType]] or [[Element]]
+             on the [[Document]] node.
+
+             `WRONG_DOCUMENT_ERR`: Raised if `newChild` was created from a different document than
+             the one that created this node.
+
+             `NO_MODIFICATION_ALLOWED_ERR`: Raised if this node or the parent of the new node is
+             readonly.
+
+             `NOT_FOUND_ERR`: Raised if `oldChild` is not a child of this node.
+
+             `NOT_SUPPORTED_ERR`: if this node is of type [[Document]], this exception might be
+             raised if the DOM implementation doesn't support the replacement of the [[DocumentType]]
+             child or [[Element]] child.
+
+             [ancestors]: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-ancestor
+             ")
     shared formal Node replaceChild(
         "The new node to put in the child list."
         Node newChild,
         "The new node to put in the child list."
         Node oldChild);
 
-    "Removes the child node indicated by `oldChild`
-     from the list of children, and returns it."
+    "Removes the child node indicated by `oldChild` from the list of children, and returns it."
+    throws(`interface DOMException`,
+             "`NO_MODIFICATION_ALLOWED_ERR`: Raised if this node is readonly.
+
+              `NOT_FOUND_ERR`: Raised if `oldChild` is not a child of this node.
+
+              `NOT_SUPPORTED_ERR`: if this node is of type [[Document]], this exception might
+              be raised if the DOM implementation doesn't support the removal of the [[DocumentType]]
+              child or the [[Element]] child.
+              ")
     shared formal Node removeChild(
         "The node being removed."
         Node oldChild);
 
     "Adds the node newChild to the end of the list of children of this node.
      If the `newChild` is already in the tree, it is first removed."
+    throws(`interface DOMException`,
+            "`HIERARCHY_REQUEST_ERR`: Raised if this node is of a type that does not allow children
+             of the type of the `newChild` node, or if the node to append is one of this node's
+             [ancestors] or this node itself, or if this node is of type [[Document]] and the DOM
+             application attempts to append a second [[DocumentType]] or [[Element]] node.
+
+             `WRONG_DOCUMENT_ERR`: Raised if `newChild` was created from a different document than
+             the one that created this node.
+
+             `NO_MODIFICATION_ALLOWED_ERR`: Raised if this node is readonly or if the previous parent
+             of the node being inserted is readonly.
+
+             `NOT_SUPPORTED_ERR`: if the `newChild` node is a child of the [[Document]] node, this
+             exception might be raised if the DOM implementation doesn't support the removal of the
+             [[DocumentType]] child or [[Element]] child.
+
+             [ancestors]: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/glossary.html#dt-ancestor
+             ")
     shared formal Node appendChild(
         "The node to add.
 
@@ -116,9 +224,9 @@ shared dynamic Node {
      [[Node.ownerDocument]] is `true`, this method will also fully normalize the characters
      of the [[Text]] nodes.
 
-     **Note:** In cases where the document contains [[CDATASections]], the normalize operation
-     alone may not be sufficient, since XPointers do not differentiate between [[Text]] nodes
-     and [[CDATASection]] nodes."
+     **Note:** In cases where the document contains [[CDATASections|CDATASection]], the normalize
+     operation alone may not be sufficient, since XPointers do not differentiate between [[Text]]
+     nodes and [[CDATASection]] nodes."
     shared formal void normalize();
 
     "Tests whether the DOM implementation implements a specific feature
@@ -165,7 +273,22 @@ shared dynamic Node {
      For nodes of any type other than `ELEMENT_NODE` and `ATTRIBUTE_NODE` and nodes
      created with a DOM Level 1 method, such as `createElement` from the [[Document]]
      interface, this is always `null`."
-    raises(`interface DOMException`, "on setting")
+    throws(`interface DOMException`,
+        """**Exceptions on setting**
+
+           `INVALID_CHARACTER_ERR`: Raised if the specified prefix contains an illegal character
+           according to the XML version in use specified in the [[Document.xmlVersion]] attribute.
+
+           `NO_MODIFICATION_ALLOWED_ERR`: Raised if this node is readonly.
+
+           `NAMESPACE_ERR`: Raised if the specified prefix is malformed per the Namespaces in XML specification,
+           if the `namespaceURI` of this node is `null`,
+           if the specified prefix is `"xml"` and the `namespaceURI` of this node is different from
+           `"http://www.w3.org/XML/1998/namespace"`,
+           if this node is an attribute and the specified prefix is `"xmlns"` and the `namespaceURI`
+           of this node is different from `"http://www.w3.org/2000/xmlns/"`, or if this node is an
+           attribute and the `qualifiedName` of this node is `"xmlns"` \[[XML Namespaces]\].
+           [XML Namespaces]: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/references.html#Namespaces""")
     shared formal variable DOMString? prefix;
 
     "Returns the local part of the [qualified name]
@@ -190,7 +313,10 @@ shared dynamic Node {
     "Compares the reference node, i.e. the node on which this method is being called,
      with a node, i.e. the one passed as a parameter, with regard to their position
      in the document and according to the document order."
-    see(`value documentPosition`)
+    see(`value \iDocumentPosition`)
+    throws(`interface DOMException`,
+            "`NOT_SUPPORTED_ERR`: when the compared nodes are from different DOM implementations that
+             do not coordinate to return consistent implementation-specific results.")
     shared formal Integer compareDocumentPosition(
         "The node to compare against the reference node."
         Node other);
@@ -201,7 +327,7 @@ shared dynamic Node {
      is not empty or null, replaced by a single Text node containing the string
      this attribute is set to.
 
-     On getting, no serialization is performed, the returned string does not
+     On getting, no serilization is performed, the returned string does not
      contain any markup. No whitespace normalization is performed and the returned
      string does not contain the white spaces in element content (see the attribute
      [[Text.isElementContentWhitespace]]).
@@ -215,17 +341,27 @@ shared dynamic Node {
        <thead><tr><th>Node type</th><th>Content</tr><thead>
        <tbody><tr>
          <td>ELEMENT_NODE, ATTRIBUTE_NODE, ENTITY_NODE, ENTITY_REFERENCE_NODE, DOCUMENT_FRAGMENT_NODE</td>
-         <td>concatenation of the textContent attribute value of every child node, excluding COMMENT_NODE and PROCESSING_INSTRUCTION_NODE nodes. This is the empty string if the node has no children.</td>
+         <td>concatenation of the textContent attribute value of every child node, excluding
+             <code>COMMENT_NODE</code> and <code>PROCESSING_INSTRUCTION_NODE</code> nodes.
+             This is the empty string if the node has no children.</td>
        </tr><tr>
          <td>TEXT_NODE, CDATA_SECTION_NODE, COMMENT_NODE, PROCESSING_INSTRUCTION_NODE</td>
          <td><code>nodeValue</code></td>
        </tr><tr>
          <td>DOCUMENT_NODE, DOCUMENT_TYPE_NODE, NOTATION_NODE\t</td>
-         <td>_`null`_</td>
+         <td><code>null</code></td>
        </tr></tbody>
      </table>
      "
-    raises(`interface DOMException`)
+    throws(`interface DOMException`,
+        "**Exceptions on setting**
+
+         `NO_MODIFICATION_ALLOWED_ERR`: Raised when the node is readonly.
+
+         **Exceptions on retrieval**
+
+         `DOMSTRING_SIZE_ERR`: Raised when it would return more characters than fit in a
+         [[DOMString]] variable on the implementation platform.")
     shared formal variable DOMString? textContent;
 
     "Returns whether this node is the same node as the given one.
@@ -272,11 +408,11 @@ shared dynamic Node {
      - The following string attributes are equal: `nodeName`, `localName`,
        `namespaceURI`, `prefix`, `nodeValue`. This is: they are both `null`, or
        they have the same length and are character for character identical.
-     - The `attribute`s [[NamedNodeMaps]] are equal. This is: they are both `null`,
+     - The `attribute`s [[NamedNodeMaps|NamedNodeMap]] are equal. This is: they are both `null`,
        or they have the same length and for each node that exists in one map there
        is a node that exists in the other map and is equal, although not necessarily
        at the same index.
-     - The `childNode`s [[NodeLists]] are equal. This is: they are both `null`, or
+     - The `childNode`s [[NodeLists|NodeList]] are equal. This is: they are both `null`, or
        they have the same length and contain equal nodes at the same index. Note that
        normalization can affect equality; to avoid this, nodes should be normalized
        before being compared.
@@ -302,26 +438,38 @@ shared dynamic Node {
      not necessarily expected to, as discussed in
      [Mixed DOM Implementations](http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#Embedded-DOM).
 
-     This method also allow the implementation to provide specialized objects which do not support the `Node` interface."
-    shared formal DOMObject getFeature(DOMString feature, DOMString version);
+     This method also allow the implementation to provide specialized objects which do not support the `Node` interface.
+
+     It returns an object which implements the specialized APIs of the specified feature and version,
+     if any, or `null` if there is no object which implements interfaces associated with that feature.
+     If the [[DOMObject]] returned by this method implements the [[Node]] interface, it must delegate
+     to the primary core [[Node]] and not return results inconsistent with the primary core [[Node]]
+     such as `attributes`, `childNodes`, etc."
+    shared formal DOMObject? getFeature(
+            """The name of the feature requested.
+               Note that any plus sign `"+"` prepended to the name of the feature will be ignored
+               since it is not significant in the context of this method."""
+            DOMString feature,
+            "This is the version number of the feature to test."
+            DOMString version);
 
     "Associate an object to a key on this node.
      The object can later be retrieved from this node by calling [[getUserData]] with the same key.
 
      Returns the [[DOMUserData]] previously associated to the given key on this node, or `null` if there was none."
-    shared formal DOMUserData setUserData(
+    shared formal DOMUserData? setUserData(
         "The key to associate the object to."
         DOMString key,
         "The object to associate to the given key, or `null` to remove any existing association to that key."
-        DOMUserData data,
+        DOMUserData? data,
         "The handler to associate to that key, or `null`."
         UserDataHandler? handler=null);
 
     "Retrieves the object associated to a key on a this node.
-     The object must first have been set to this node by calling setUserData with the same key.
+     The object must first have been set to this node by calling `setUserData` with the same key.
 
-     Returns the [[DOMUserData]] associated to the given key on this node, or null if there was none."
-    shared formal DOMUserData getUserData(
+     Returns the [[DOMUserData]] associated to the given key on this node, or `null` if there was none."
+    shared formal DOMUserData? getUserData(
         "The key the object is associated to."
         DOMString key);
 }
