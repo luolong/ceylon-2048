@@ -1,0 +1,1 @@
+shared dynamic DocumentFragment satisfies Node {}

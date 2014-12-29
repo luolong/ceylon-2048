@@ -1,0 +1,1 @@
+shared alias DOMUserData => Anything;

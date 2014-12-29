@@ -1,0 +1,1 @@
+shared dynamic Comment satisfies CharacterData {}

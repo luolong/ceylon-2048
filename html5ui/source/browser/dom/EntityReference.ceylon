@@ -1,0 +1,1 @@
+shared dynamic EntityReference satisfies Node {}

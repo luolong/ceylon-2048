@@ -1,0 +1,1 @@
+shared dynamic CDATASection satisfies Text {}
